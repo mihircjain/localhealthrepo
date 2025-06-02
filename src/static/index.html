@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Dashboard</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Health Dashboard</h1>
+            <nav>
+                <ul>
+                    <li><a href="#dashboard" class="active">Dashboard</a></li>
+                    <li><a href="#activities">Activities</a></li>
+                    <li><a href="#nutrition">Nutrition</a></li>
+                    <li><a href="#sleep">Sleep</a></li>
+                    <li><a href="#reports">Reports</a></li>
+                    <li><a href="#medications">Medications</a></li>
+                    <li><a href="#data-sources">Data Sources</a></li>
+                    <li><a href="#chat">Chat</a></li>
+                </ul>
+            </nav>
+            <div class="user-menu">
+                <span class="user-name">Welcome, User</span>
+                <button class="btn btn-outline">Settings</button>
+            </div>
+        </header>
+
+        <main>
+            <section id="dashboard" class="active-section">
+                <h2>Your Health Overview</h2>
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <h3>Activity Summary</h3>
+                        <div class="card-content">
+                            <div id="activity-chart-container">
+                                <canvas id="activity-chart"></canvas>
+                                <div id="no-activity-data" class="no-data-message" style="display: none;">
+                                    No activity data available. Connect Strava and sync your data.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h3>Nutrition Summary</h3>
+                        <div class="card-content">
+                            <div id="nutrition-chart-container">
+                                <canvas id="nutrition-chart"></canvas>
+                                <div class="no-data-message">
+                                    No nutrition data available. Connect a food tracking app or add manual entries.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h3>Sleep Summary</h3>
+                        <div class="card-content">
+                            <div id="sleep-chart-container">
+                                <canvas id="sleep-chart"></canvas>
+                                <div class="no-data-message">
+                                    No sleep data available. Connect Apple Health or another sleep tracker.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h3>Recent Workouts</h3>
+                        <div class="card-content">
+                            <div id="recent-workouts-container">
+                                <div id="no-workout-data" class="no-data-message" style="display: none;">
+                                    No workout data available. Connect Hevy or another workout tracker.
+                                </div>
+                                <div id="workout-list"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="activities">
+                <h2>Activities</h2>
+                <div class="section-controls">
+                    <div class="filter-controls">
+                        <select id="activity-type-filter">
+                            <option value="all">All Activities</option>
+                            <option value="run">Running</option>
+                            <option value="ride">Cycling</option>
+                            <option value="swim">Swimming</option>
+                            <option value="walk">Walking</option>
+                        </select>
+                        <input type="date" id="activity-date-filter">
+                        <button class="btn btn-outline" id="activity-filter-btn">Filter</button>
+                    </div>
+                </div>
+                <div class="card-grid" id="activity-data-container">
+                    <div id="no-activities-message" class="no-data-message" style="display: none;">
+                        No activities found. Connect Strava and sync your data.
+                    </div>
+                </div>
+            </section>
+
+            <section id="data-sources">
+                <h2>Data Sources</h2>
+                <div class="card-grid">
+                    <div class="card">
+                        <h3>Strava</h3>
+                        <div class="card-content">
+                            <p>Connect your Strava account to import activities like running, cycling, and more.</p>
+                            <div class="connection-status">
+                                <div id="strava-status">
+                                    <span id="strava-connection-status">Not Connected</span>
+                                    <span id="strava-sync-status" class="sync-status"></span>
+                                </div>
+                                <div class="connection-actions">
+                                    <button class="btn btn-primary" id="strava-connect-btn">Connect</button>
+                                    <button class="btn btn-secondary strava-sync-btn" data-user-id="1" style="display: none;">Sync Now</button>
+                                    <button class="btn btn-outline" id="strava-configure-btn" style="display: none;">Configure</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h3>HealthifyMe</h3>
+                        <div class="card-content">
+                            <p>Connect HealthifyMe to import your nutrition data and meal tracking.</p>
+                            <div class="connection-status">
+                                <span>Not Connected</span>
+                                <button class="btn btn-primary">Connect</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h3>Apple Health</h3>
+                        <div class="card-content">
+                            <p>Connect Apple Health to import sleep, steps, and other health metrics.</p>
+                            <div class="connection-status">
+                                <span>Not Connected</span>
+                                <button class="btn btn-primary">Connect</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h3>Hevy</h3>
+                        <div class="card-content">
+                            <p>Connect Hevy to import your workout and strength training data.</p>
+                            <div class="connection-status">
+                                <span>Not Connected</span>
+                                <button class="btn btn-primary">Connect</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="chat">
+                <h2>Chat with Your Health Data</h2>
+                <div class="chat-container">
+                    <div class="chat-messages" id="chat-messages">
+                        <div class="message system">
+                            <div class="message-content">
+                                <p>Welcome to Health Dashboard Chat! Ask me questions about your health data.</p>
+                                <p>Examples:</p>
+                                <ul>
+                                    <li>"How was my sleep last week?"</li>
+                                    <li>"Show me my running activities from last month"</li>
+                                    <li>"What's my average heart rate during workouts?"</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chat-input">
+                        <input type="text" id="chat-input-field" placeholder="Ask a question about your health data...">
+                        <button class="btn btn-primary" id="chat-send-btn">Send</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/strava_sync.js"></script>
+</body>
+</html>
