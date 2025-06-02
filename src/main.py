@@ -6,6 +6,7 @@ from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
 from src.models.user import db, User
 from src.routes.strava import strava_bp
+from src.routes.strava_direct import strava_direct_bp
 from src.routes.healthifyme import healthifyme_bp
 from src.routes.apple_health import apple_health_bp
 from src.routes.blood_report import blood_report_bp
@@ -26,6 +27,7 @@ db.init_app(app)
 
 # Register blueprints
 app.register_blueprint(strava_bp, url_prefix='/api/strava')
+app.register_blueprint(strava_direct_bp, url_prefix='/api/strava-direct')
 app.register_blueprint(healthifyme_bp, url_prefix='/api/healthifyme')
 app.register_blueprint(apple_health_bp, url_prefix='/api/apple-health')
 app.register_blueprint(blood_report_bp, url_prefix='/api/blood-reports')
