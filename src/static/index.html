@@ -6,6 +6,7 @@
     <title>Health Dashboard</title>
     <link rel="stylesheet" href="css/styles.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div class="container">
@@ -20,7 +21,6 @@
                     <li><a href="#reports">Reports</a></li>
                     <li><a href="#medications">Medications</a></li>
                     <li><a href="#data-sources">Data Sources</a></li>
-                    <li><a href="#chat">Chat</a></li>
                 </ul>
             </nav>
             <div class="user-menu">
@@ -34,12 +34,26 @@
                 <h2>Your Health Overview</h2>
                 <div class="dashboard-grid">
                     <div class="card">
-                        <h3>Activity Summary</h3>
+                        <h3>Strava Activities</h3>
                         <div class="card-content">
                             <div id="activity-chart-container">
                                 <canvas id="activity-chart"></canvas>
                                 <div id="no-activity-data" class="no-data-message" style="display: none;">
                                     No activity data available. Connect Strava and sync your data.
+                                </div>
+                            </div>
+                            <div id="activity-stats" class="stats-container">
+                                <div class="stat-item">
+                                    <span class="stat-label">Total Distance</span>
+                                    <span class="stat-value" id="total-distance">0 km</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Avg. Heart Rate</span>
+                                    <span class="stat-value" id="avg-heart-rate">0 bpm</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Activities</span>
+                                    <span class="stat-value" id="activity-count">0</span>
                                 </div>
                             </div>
                         </div>
@@ -56,7 +70,7 @@
                         </div>
                     </div>
                     <div class="card">
-                        <h3>Sleep Summary</h3>
+                        <h3>Sleep Analysis</h3>
                         <div class="card-content">
                             <div id="sleep-chart-container">
                                 <canvas id="sleep-chart"></canvas>
@@ -98,6 +112,106 @@
                 <div class="card-grid" id="activity-data-container">
                     <div id="no-activities-message" class="no-data-message" style="display: none;">
                         No activities found. Connect Strava and sync your data.
+                    </div>
+                </div>
+            </section>
+
+            <section id="nutrition">
+                <h2>Nutrition</h2>
+                <div class="card-grid">
+                    <div class="card">
+                        <h3>Daily Nutrition</h3>
+                        <div class="card-content">
+                            <div id="daily-nutrition-chart-container">
+                                <canvas id="daily-nutrition-chart"></canvas>
+                                <div class="no-data-message">
+                                    No nutrition data available. Connect HealthifyMe or add manual entries.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h3>Macronutrient Breakdown</h3>
+                        <div class="card-content">
+                            <div id="macro-chart-container">
+                                <canvas id="macro-chart"></canvas>
+                                <div class="no-data-message">
+                                    No nutrition data available.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="sleep">
+                <h2>Sleep</h2>
+                <div class="card-grid">
+                    <div class="card">
+                        <h3>Sleep Duration</h3>
+                        <div class="card-content">
+                            <div id="sleep-duration-chart-container">
+                                <canvas id="sleep-duration-chart"></canvas>
+                                <div class="no-data-message">
+                                    No sleep data available. Connect Apple Health or another sleep tracker.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h3>Sleep Quality</h3>
+                        <div class="card-content">
+                            <div id="sleep-quality-chart-container">
+                                <canvas id="sleep-quality-chart"></canvas>
+                                <div class="no-data-message">
+                                    No sleep quality data available.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="reports">
+                <h2>Reports</h2>
+                <div class="card-grid">
+                    <div class="card">
+                        <h3>Blood Reports</h3>
+                        <div class="card-content">
+                            <div class="no-data-message">
+                                No blood reports available. Upload PDF reports to analyze.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h3>Health Metrics</h3>
+                        <div class="card-content">
+                            <div class="no-data-message">
+                                No health metrics available.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="medications">
+                <h2>Medications</h2>
+                <div class="card-grid">
+                    <div class="card">
+                        <h3>Current Medications</h3>
+                        <div class="card-content">
+                            <div class="no-data-message">
+                                No medications added. Add medications from the repository.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h3>Medication Schedule</h3>
+                        <div class="card-content">
+                            <div class="no-data-message">
+                                No medication schedule available.
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -154,33 +268,41 @@
                     </div>
                 </div>
             </section>
+        </main>
+    </div>
 
-            <section id="chat">
-                <h2>Chat with Your Health Data</h2>
-                <div class="chat-container">
-                    <div class="chat-messages" id="chat-messages">
-                        <div class="message system">
-                            <div class="message-content">
-                                <p>Welcome to Health Dashboard Chat! Ask me questions about your health data.</p>
-                                <p>Examples:</p>
-                                <ul>
-                                    <li>"How was my sleep last week?"</li>
-                                    <li>"Show me my running activities from last month"</li>
-                                    <li>"What's my average heart rate during workouts?"</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="chat-input">
-                        <input type="text" id="chat-input-field" placeholder="Ask a question about your health data...">
-                        <button class="btn btn-primary" id="chat-send-btn">Send</button>
+    <!-- Floating Chat Widget -->
+    <div class="chat-widget">
+        <div class="chat-widget-button" id="chat-widget-toggle">
+            <i class="fas fa-comments"></i>
+        </div>
+        <div class="chat-widget-popup" id="chat-widget-popup">
+            <div class="chat-widget-header">
+                <h3>Chat with Your Health Data</h3>
+                <button class="chat-widget-close" id="chat-widget-close">&times;</button>
+            </div>
+            <div class="chat-widget-messages" id="chat-widget-messages">
+                <div class="message system">
+                    <div class="message-content">
+                        <p>Welcome to Health Dashboard Chat! Ask me questions about your health data.</p>
+                        <p>Examples:</p>
+                        <ul>
+                            <li>"How was my sleep last week?"</li>
+                            <li>"Show me my running activities from last month"</li>
+                            <li>"What's my average heart rate during workouts?"</li>
+                        </ul>
                     </div>
                 </div>
-            </section>
-        </main>
+            </div>
+            <div class="chat-widget-input">
+                <input type="text" id="chat-widget-input-field" placeholder="Ask a question...">
+                <button class="btn btn-primary" id="chat-widget-send-btn">Send</button>
+            </div>
+        </div>
     </div>
 
     <script src="js/main.js"></script>
     <script src="js/strava_sync.js"></script>
+    <script src="js/chat_widget.js"></script>
 </body>
 </html>
